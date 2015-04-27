@@ -1,41 +1,37 @@
 #!/bin/bash
 
-#: Title	: adBlock.sh
-#: Date		: 17/03/15
-#: Description	: Modific file hosts and add files.
-#: Version	: 1.0
-#: Autor	: Wada Erna
+#: Title	:: adBlock.sh
+#: Date		:: 17/03/15
+#: Description	:: Blocking adversiting via host file
+#: Version	:: 0.1
+#: Autor	:: Wada Erna
 
-# Start time elapsed
 startTime=$(date +%s)
-
-# URLS & Temp Files
-declare -a myUrls=( 
-    http://winhelp2002.mvps.org/hosts.txt 
-    http://www.malwaredomainlist.com/hostslist/hosts.txt )
-declare -a tmpFiles=()
-
-# Store directories
 adHosts="/etc/hosts"
 adHstBK="/etc/hosts.bk"
 tmpTrash="/tmp/trash"
 tmpLineOut="/tmp/lineout"
 
+declare -a myUrls=( 
+    http://winhelp2002.mvps.org/hosts.txt 
+    http://www.malwaredomainlist.com/hostslist/hosts.txt )
+declare -a tmpFiles=()
+
 fncDownload() {
-    printf "::Start DB update \n"
+    printf ":: Start DB update \n"
     for((i=0; i<=$((${#myUrls[@]}-1));i++)); do
 	rute="/tmp/FO$i.txt"
 	curl -o $rute -O ${myUrls[$i]} &> /dev/null
 	tmpFiles+=("$rute")
     done
-    printf "::Download all DB\n"
+    printf ":: Download all DB\n"
 }
 
 fncHostBackup() {
     if [[ -f /etc/hosts.bk ]]; then
-	printf "!!There is a copy of hosts, skiping a backup\n"
+	printf "!! There is a copy of hosts, skiping a backup\n"
     else
-	printf "::Making a copy of hosts\n"
+	printf ":: Making a copy of hosts\n"
 	sudo bash -c "cp $adHosts $adHstBK"
     fi
 }
@@ -45,12 +41,12 @@ fncClean(){
 	egrep -v "localhost" ${tmpFiles[$i]} > $tmpLineOut
 	cat $tmpLineOut | col -b >> $tmpTrash
     done
-    printf "::Cleaned all files\n"
+    printf ":: Cleaned all files\n"
 }
 
 fncReplaceHost(){
     sudo bash -c "cat $adHstBK $tmpTrash > $adHosts"
-    printf "::Replace host complete\n"
+    printf ":: Replace host complete\n"
 }
 
 fncDelete(){
@@ -60,7 +56,7 @@ fncDelete(){
     done
     unset myUrls
     unset tmpFiles
-    printf "::Unset and delete all files\n"
+    printf ":: Unset and delete all files\n"
 }
 
 fncMain(){
@@ -73,8 +69,5 @@ fncMain(){
 
 fncMain
 
-# End time elapsed and print it
 endTime=$(date +%s)
 printf "Runing Time: %d\n" $(($endTime-$startTime))
-
-return 0
