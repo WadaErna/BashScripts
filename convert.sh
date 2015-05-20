@@ -6,7 +6,7 @@
 #: Version	:: 1.0
 #: Autor	:: Wada Erna
 
-ERR_ARGS=1 #Insuficient Args
+ERR_ARGS=1
 SUCCESS=0 
 
 DIR=~/.config/awesome/themes/Nath/icons/colors/
