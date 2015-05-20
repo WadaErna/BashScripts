@@ -1,6 +1,12 @@
 #!/bin/bash
 
-ERR_ARGS=128 #Insuficient Args
+#: Title	:: convert.sh
+#: Date		:: 09/04/15
+#: Description	:: Convert .xbm to .png and change their color
+#: Version	:: 1.0
+#: Autor	:: Wada Erna
+
+ERR_ARGS=1 #Insuficient Args
 SUCCESS=0 
 
 DIR=~/.config/awesome/themes/Nath/icons/colors/
@@ -16,8 +22,7 @@ fncConvert(){
 }
 
 if [ "$#" -eq 0 ]; then
-    printf "Insuficient args.\n"
-    printf "%d\n" "$#"
+    printf "Invalid options:\nUsage: $0 151515\n"
     exit $ERR_ARGS
 else
     fncConvert
